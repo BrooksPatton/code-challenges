@@ -9,6 +9,26 @@ fn get_puzzle_input() -> String {
     puzzle_input
 }
 
+fn get_first_repeated(frequency_changes: Vec<i32>) -> i32 {
+    let mut found_frequencies = Vec::new();
+    let mut sum = 0;
+
+    found_frequencies.push(sum);
+
+    loop {
+        for frequency_change in frequency_changes.clone() {
+            sum += frequency_change;
+            for frequency in &found_frequencies {
+                if *frequency == sum {
+                    return sum;
+                }
+            }
+
+            found_frequencies.push(sum);
+        }
+    }
+}
+
 fn main() {
     // Get the puzzle input
     let puzzle_input = get_puzzle_input();
@@ -17,7 +37,10 @@ fn main() {
         // add to a vector
     let frequency_changes: Vec<i32> = puzzle_input.trim().lines().map(|s| s.parse::<i32>().unwrap()).collect();
     // sum the vector
-    let sum: i32 = frequency_changes.into_iter().sum();
+    let sum: i32 = frequency_changes.clone().into_iter().sum();
     // print the results
-    println!("{}", sum);
+    println!("sum: {}", sum);
+    
+    let repeated_frequency = get_first_repeated(frequency_changes);
+    println!("repeated: {}", repeated_frequency);
 }
